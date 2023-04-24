@@ -31,18 +31,12 @@ HexMap[5][3] = 0
 HexMap[5][4] = 0
 
 const PLACEHOLDER_NEIGHBOURS_EVEN = [
-    // [-1, -1],
-    //  [0, -2],
-    // [-1, +1], [0, +1], [0, +2],
     [0, -2], [0, -1],
     [0, +1], [0, +2], [-1, +1],
     [-1, -1],
 ]
 
 const PLACEHOLDER_NEIGHBOURS_ODD = [
-    // [-1, -1],
-    //  [0, -2],
-    // [-1, +1], [0, +1], [0, +2],
     [0, -2], [+1, -1],
     [+1, +1], [0, +2], [0, +1],
     [0, -1],
@@ -53,28 +47,36 @@ const NEIGHBOUR_ACCES_DIR = [
     0, 1, 2,
 ]
 
-function compute_compatibility(i, j): number {
-    let hits = 0
-    let neighbours = PLACEHOLDER_NEIGHBOURS_EVEN
-    if (j % 2 == 1) {
-        neighbours = PLACEHOLDER_NEIGHBOURS_ODD
-    }
-    // neighbours locations and hex state needs to be aligned!
-    for (let k = 0; k < main_hex_state.length; k++) {
-        console.log(k, neighbours)
-        let el = neighbours[k]
-        if (j + el[1] < 0 || j + el[1] >= HexMap.length || i + el[0] < 0 || i + el[0] >= HexMap[0].length) {
-            continue
+function compute_compatibility(i, j): [number, number] {
+    let best_hits = 0
+    let best_rotation = 0
+    for (let rotation = 0; rotation < 6; rotation += 1) {
+        let hits = 0
+        let neighbours = PLACEHOLDER_NEIGHBOURS_EVEN
+        if (j % 2 == 1) {
+            neighbours = PLACEHOLDER_NEIGHBOURS_ODD
         }
+        // neighbours locations and hex state needs to be aligned!
+        for (let k = 0; k < main_hex_state.length; k++) {
+            let el = neighbours[k]
+            if (j + el[1] < 0 || j + el[1] >= HexMap.length || i + el[0] < 0 || i + el[0] >= HexMap[0].length) {
+                continue
+            }
 
-        let obj = HexMap[j + el[1]][i + el[0]]
-        if (obj != null && obj != 0) {
-            if (obj[NEIGHBOUR_ACCES_DIR[k]] == main_hex_state[k]) {
-                hits += 1
+            let obj = HexMap[j + el[1]][i + el[0]]
+            if (obj != null && obj != 0) {
+                if (obj[NEIGHBOUR_ACCES_DIR[k]] == main_hex_state[(k+rotation)%6]) {
+                    hits += 1
+                }
             }
         }
+        if (hits > best_hits) {
+            best_hits = hits
+            best_rotation = rotation
+        }
     }
-    return hits
+
+    return [best_hits, best_rotation]
 }
 
 export class GameScene extends Phaser.Scene {
@@ -93,7 +95,6 @@ export class GameScene extends Phaser.Scene {
             this.hex_group.destroy(true)
         }
         this.hex_group = this.add.group()
-
 
         // for (let j = 0; j < HexMap.length; j++) {
         //     let line = ""
@@ -119,12 +120,18 @@ export class GameScene extends Phaser.Scene {
 
                 } else if (obj == 0) {
                     // let text = this.add.text(loc_x, loc_y, `${i} ${j}`).setAlign("center").setColor("black")
-                    let text = this.add.text(loc_x, loc_y, `${compute_compatibility(i, j)}`).setAlign("center").setColor("black")
+                    let [best_hits, best_rotation] = compute_compatibility(i, j)
+                    let text = this.add.text(loc_x, loc_y, `${best_hits}`).setAlign("center").setColor("black")
                     this.hex_group.add(text)
                     let hex = HexFactory.createHexEmpty(
                         loc_x, loc_y, this,
                         () => {
-                            HexMap[j][i] = [...main_hex_state]
+                            // HexMap[j][i] = [...main_hex_state]
+
+                            HexMap[j][i] = new Array<HEX_STATE>(6)
+                            for (let k = 0; k < 6; k += 1) {
+                                HexMap[j][i][k] = main_hex_state[(k+best_rotation)%6]
+                            }
 
                             // create placeholders around if they don't exist
                             let offset_j = 0

@@ -24,7 +24,7 @@ let HEX_STATE_TRANSITION: { [state in HEX_STATE]: number } = {
     [HEX_STATE.CITY]: HEX_STATE.PLAIN,
 }
 
-export let main_hex_states = new Array(6)
+export let main_hex_state = new Array(6)
 
 
 class _HexFactory {
@@ -113,7 +113,7 @@ class _HexFactory {
         sillouethe.setStrokeStyle(4, 0x90B0B0, 1.0)
 
         for (let i = 0; i < 6; i++) {
-            main_hex_states[i] = HEX_STATE.PLAIN
+            main_hex_state[i] = HEX_STATE.PLAIN
 
             let triangle = scene.add.triangle(
                 x, y,
@@ -139,8 +139,10 @@ class _HexFactory {
                 triangle.setAlpha(0.8)
             })
             triangle_hidden.on("pointerdown", (event) => {
-                main_hex_states[i] = HEX_STATE_TRANSITION[main_hex_states[i]]
-                triangle.setFillStyle(HEX_STATE_COLORS[main_hex_states[i]], 0.8)
+                main_hex_state[i] = HEX_STATE_TRANSITION[main_hex_state[i]]
+                triangle.setFillStyle(HEX_STATE_COLORS[main_hex_state[i]], 0.8)
+                // @ts-ignore
+                scene.redraw_map()
             })
             triangle_hidden.on("pointerout", () => {
                 triangle.setAlpha(1.0)

@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "phaser": "^3.60.0",
+    "yarn": "^1.22.19"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.13.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production",
+    "build_dev": "webpack --mode=development",
+    "watch": "webpack --mode=development --watch ",
+    "dev": "webpack-dev-server --mode=development --open",
+    "dev_prod": "webpack-dev-server --mode=production --open"
+  }
+}

@@ -1,0 +1,27 @@
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+
+
+    /* control the size */
+    --s: 70px;
+    --c1: #aaa;
+    --c2: #bbb;
+    --c3: #ccc;
+    --c4: #999;
+
+    background:
+        conic-gradient(from 150deg, var(--c1) 60deg, #0000 0 180deg,
+            var(--c2) 0 240deg, #0000 0) var(--s) 0,
+        conic-gradient(from -30deg, var(--c1) 60deg, var(--c3) 0 120deg, var(--c4) 0 180deg,
+            var(--c2) 0 240deg, var(--c3) 0 300deg, var(--c4) 0);
+    background-size: calc(2*var(--s)) var(--s);
+}
+
+#game-content {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    display: block;
+}

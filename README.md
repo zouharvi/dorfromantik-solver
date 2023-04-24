@@ -8,3 +8,5 @@ Use <b>R</b> and <b>A</b> to rotate your tile and turn the autorotate on/off.
 
 Some things are not working -- this is just a prototype.
 It's available online here: [vilda.net/s/dorfromantik-solver/](https://vilda.net/s/dorfromantik-solver/).
+
+![image](https://user-images.githubusercontent.com/7661193/234122247-fbab7d89-736b-4dfa-ba25-6c81c7753a2a.png)

@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 // import * from './hex_factory';
 import './hex_factory'
 import { HexFactory, HEX_STATE, HEX_R, HEX_r, main_hex_state, PACKED_HEX_STATE } from './hex_factory';
+import { UIFactory } from './misc_ui';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: true,
@@ -87,7 +88,6 @@ export class GameScene extends Phaser.Scene {
     }
 
     public preload() {
-        console.log("PRELOAD?")
     }
 
     public redraw_map() {
@@ -137,7 +137,6 @@ export class GameScene extends Phaser.Scene {
                             let offset_j = 0
                             let offset_i = 0
 
-                            console.log(j)
                             let neighbours = PLACEHOLDER_NEIGHBOURS_EVEN
                             if (j % 2 == 1) {
                                 neighbours = PLACEHOLDER_NEIGHBOURS_ODD
@@ -196,7 +195,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     public create() {
-        HexFactory.createMainHex(700, 500, this)
+        HexFactory.createMainHex(this)
+        UIFactory.createRotate(this)
+        UIFactory.createAutoRotate(this)
 
         this.redraw_map()
         // for (let i = 0; i < 3; i++) {

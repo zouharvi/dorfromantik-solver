@@ -99,7 +99,9 @@ class _HexFactory {
     }
 
 
-    public createMainHex(x, y, scene: Phaser.Scene): void {
+    public createMainHex(scene: Phaser.Scene): void {
+        let x = 700
+        let y = 470
         // sillouethe
         let sillouethe = scene.add.polygon(
             x, y,
@@ -140,7 +142,7 @@ class _HexFactory {
             })
             triangle_hidden.on("pointerdown", (event) => {
                 main_hex_state[i] = HEX_STATE_TRANSITION[main_hex_state[i]]
-                triangle.setFillStyle(HEX_STATE_COLORS[main_hex_state[i]], 0.8)
+                triangle.setFillStyle(HEX_STATE_COLORS[main_hex_state[i]], 1)
                 // @ts-ignore
                 scene.redraw_map()
             })

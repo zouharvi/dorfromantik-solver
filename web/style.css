@@ -26,6 +26,24 @@ body {
     display: block;
 }
 
-canvas { 
+canvas {
     border: 2px solid black;
+}
+
+#infobox {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    background-color: #ACC;
+    width: 780px;
+    border: 2px solid black;
+    text-align: justify;
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }

@@ -137,7 +137,6 @@ class _HexFactory {
 
             triangle_hidden.on("pointerover", (event) => {
                 triangle.setAlpha(0.8)
-                console.log("CLICKED!")
             })
             triangle_hidden.on("pointerdown", (event) => {
                 main_hex_states[i] = HEX_STATE_TRANSITION[main_hex_states[i]]
@@ -145,7 +144,6 @@ class _HexFactory {
             })
             triangle_hidden.on("pointerout", () => {
                 triangle.setAlpha(1.0)
-                console.log("CLICKED OUT!")
             })
 
             // scene.physics.add.existing(triangle_hidden)

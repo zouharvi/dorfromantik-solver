@@ -25,3 +25,7 @@ body {
     margin-top: 100px;
     display: block;
 }
+
+canvas { 
+    border: 2px solid black;
+}

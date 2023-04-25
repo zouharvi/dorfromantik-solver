@@ -9,6 +9,7 @@ export enum HEX_STATE {
     FIELD,
     CITY,
     WATER,
+    RAIL,
 }
 export type PACKED_HEX_STATE = Array<HEX_STATE> | 0 | null;
 
@@ -18,13 +19,15 @@ export let HEX_STATE_COLORS: { [state in HEX_STATE]: number } = {
     [HEX_STATE.FIELD]: 0x9e9c39,
     [HEX_STATE.CITY]: 0x9e5339,
     [HEX_STATE.WATER]: 0x53b0af,
+    [HEX_STATE.RAIL]: 0x555555,
 }
 export let HEX_STATE_TRANSITION: { [state in HEX_STATE]: number } = {
     [HEX_STATE.PLAIN]: HEX_STATE.TREE,
     [HEX_STATE.TREE]: HEX_STATE.FIELD,
     [HEX_STATE.FIELD]: HEX_STATE.CITY,
     [HEX_STATE.CITY]: HEX_STATE.WATER,
-    [HEX_STATE.WATER]: HEX_STATE.PLAIN,
+    [HEX_STATE.WATER]: HEX_STATE.RAIL,
+    [HEX_STATE.RAIL]: HEX_STATE.PLAIN,
 }
 
 export let main_hex_state = [

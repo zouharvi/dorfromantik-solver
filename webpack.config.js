@@ -4,7 +4,7 @@ var webpack = require("webpack");
 module.exports = (env, argv) => {
    return {
       entry: './src/main.ts',
-      devtool: 'inline-source-map',
+      // devtool: 'inline-source-map',
       module: {
          rules: [
             {
@@ -41,6 +41,9 @@ module.exports = (env, argv) => {
       // ignore file size warning
       performance: {
          hints: false,
+      },
+      optimization: {
+         minimize: true,
       },
    }
 };

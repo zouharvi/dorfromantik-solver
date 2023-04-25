@@ -1,11 +1,36 @@
 
 import { main_hex_state, HEX_MAIN_R, HEX_MAIN_r, HEX_STATE, HEX_STATE_COLORS, HEX_STATE_TRANSITION } from './hex_factory';
 import { global_redraw_map } from './main';
+import { global_undo } from './map_drawer';
 export let AUTOROTATE_ON = true
 
 class _UIFactory {
+    public createUndo(scene: Phaser.Scene) {
+        let x = 640
+        let y = 570
+        let button = scene.add.rectangle(x, y, 40, 40, 0xAAAAAA).setStrokeStyle(4, 0x90B0B0, 1.0)
+        scene.add.text(x - 10, y - 15, "U").setColor("#0x222222").setFontSize("22px").setFontFamily("Georgia").setScrollFactor(0)
+        // fix to camera
+        button.setScrollFactor(0)
+        button.setInteractive()
+
+        button.on("pointerover", (event) => {
+            button.setAlpha(0.8)
+        })
+        button.on("pointerout", () => {
+            button.setAlpha(1.0)
+        })
+        let switch_fn = () => {
+            // TODO:
+            global_undo()
+            global_redraw_map()
+        }
+        button.on("pointerdown", switch_fn)
+        scene.input.keyboard.on('keydown', (event) => { if (event.code == "KeyU") switch_fn() });
+    }
+
     public createRotate(scene: Phaser.Scene) {
-        let x = 660
+        let x = 687
         let y = 570
         let button = scene.add.rectangle(x, y, 40, 40, 0xAAAAAA).setStrokeStyle(4, 0x90B0B0, 1.0)
         scene.add.text(x - 13, y - 15, "↻").setColor("#0x222222").setFontSize("28px").setFontFamily("Georgia").setScrollFactor(0)
@@ -32,7 +57,7 @@ class _UIFactory {
 
 
     public createAutoRotate(scene: Phaser.Scene) {
-        let x = 730
+        let x = 750
         let y = 570
         let button = scene.add.rectangle(x, y, 70, 40, 0xAACCAA).setStrokeStyle(4, 0x90B0B0, 1.0)
         scene.add.text(x - 22, y - 18, "auto\nrotate").setColor("#0x222222").setFontSize("15px").setFontFamily("Georgia").setAlign("center").setScrollFactor(0)

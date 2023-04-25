@@ -19,6 +19,7 @@ export class GameUIScene extends Phaser.Scene {
         UIFactory.createRotate(this)
         UIFactory.createAutoRotate(this)
         UIFactory.createMainHex(this)
+        UIFactory.createUndo(this)
     }
 }
 
@@ -36,6 +37,7 @@ export class GameScene extends Phaser.Scene {
             MapDrawer.redraw_map(this)
         }
         global_redraw_map()
+
     }
 
     public update() {

@@ -2,7 +2,8 @@
 import { HexFactory, HEX_STATE, HEX_R, HEX_r, main_hex_state, PACKED_HEX_STATE } from './hex_factory';
 import { AUTOROTATE_ON } from './misc_ui';
 
-export let HexMap = new Array<Array<PACKED_HEX_STATE>>()
+export var HexMap = new Array<Array<PACKED_HEX_STATE>>()
+export var HexMapHistory = new Array<Array<Array<PACKED_HEX_STATE>>>()
 
 // fill with empty
 for (let j = 0; j < 20; j++) {
@@ -39,10 +40,29 @@ const NEIGHBOUR_ACCES_DIR = [
     0, 1, 2,
 ]
 
+function clone_arr(obj: Array<Array<PACKED_HEX_STATE>>): any {
+    let objNew= new Array<Array<PACKED_HEX_STATE>>()
+    for (let j = 0; j < obj.length; j++) {
+        let line = new Array<PACKED_HEX_STATE>()
+        for (let i = 0; i < obj.length; i++) {
+            if (obj[j][i] == null || obj[j][i] == 0) {
+                line.push(obj[j][i])
+            } else {
+                line.push([...(obj[j][i] as Array<HEX_STATE>)])
+            }
+        }
+        objNew.push(line)
+    }
+    return objNew
+}
 
+export let global_undo = () => {
+    if (HexMapHistory.length > 0) {
+        HexMap = HexMapHistory.pop()
+    }
+}
 
 class _MapDrawer {
-
     public compute_compatibility(i, j): [number, number] {
         let best_hits = 0
         let best_rotation = 0
@@ -115,6 +135,7 @@ class _MapDrawer {
                     let hex = HexFactory.createHexEmpty(
                         loc_x, loc_y, best_hits, scene,
                         () => {
+                            HexMapHistory.push(clone_arr(HexMap))
 
                             if (AUTOROTATE_ON) {
                                 HexMap[j][i] = new Array<HEX_STATE>(6)
@@ -192,6 +213,7 @@ class _MapDrawer {
                                 }
                             });
 
+                            
                             this.redraw_map(scene)
                         }
                     )
